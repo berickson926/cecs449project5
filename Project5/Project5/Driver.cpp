@@ -12,6 +12,10 @@
 #include <gl/Glut.h>
 #include <stdlib.h>
 #include <math.h>
+#include <time.h>
+#include <iostream>
+
+using namespace std;
 
 #define PI 3.14159265
 
@@ -240,7 +244,7 @@ void initializeWindow()
 void timeUpdate()
 {
 
-	seconds += .5;
+	/*seconds += 5;
 
 	if(seconds > 60)
 	{
@@ -257,7 +261,30 @@ void timeUpdate()
 				hour = 0;
 			}
 		}
-	}
+	}*/
+
+	time_t current_time;
+    char* c_time_string;
+ 
+    /* Obtain current time as seconds elapsed since the Epoch. */
+    current_time = time(NULL);
+
+    /* Convert to local time format. */
+    c_time_string = ctime(&current_time);
+
+	cout << c_time_string;
+	/*char szNumbers[] = "2001 60c0c0 -1101110100110100100000 0x6fffff";
+  char * pEnd;
+  long int li1, li2, li3, li4;
+  li1 = strtol (szNumbers,&pEnd,10);
+  li2 = strtol (pEnd,&pEnd,16);
+  li3 = strtol (pEnd,&pEnd,2);
+  li4 = strtol (pEnd,NULL,0);
+  
+	hour = strtol(c_time_string, &pEnd, 2);
+  
+  printf ("The decimal equivalents are: %ld, %ld, %ld and %ld.\n", li1, li2, li3, li4);
+  return 0;*/
 
 	glutPostRedisplay();
 }//end timeUpdate
