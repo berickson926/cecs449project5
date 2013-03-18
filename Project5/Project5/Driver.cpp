@@ -243,48 +243,13 @@ void initializeWindow()
 
 void timeUpdate()
 {
+	time_t t = time(0);   // get time now
+    struct tm *tm_struct  = localtime( & t );
+	
 
-	/*seconds += 5;
-
-	if(seconds > 60)
-	{
-		minutes ++;
-		seconds =0;
-
-		if(minutes > 60)
-		{
-			minutes =0;
-			hour++;
-
-			if(hour > 12)
-			{
-				hour = 0;
-			}
-		}
-	}*/
-
-	time_t current_time;
-    char* c_time_string;
- 
-    /* Obtain current time as seconds elapsed since the Epoch. */
-    current_time = time(NULL);
-
-    /* Convert to local time format. */
-    c_time_string = ctime(&current_time);
-
-	cout << c_time_string;
-	/*char szNumbers[] = "2001 60c0c0 -1101110100110100100000 0x6fffff";
-  char * pEnd;
-  long int li1, li2, li3, li4;
-  li1 = strtol (szNumbers,&pEnd,10);
-  li2 = strtol (pEnd,&pEnd,16);
-  li3 = strtol (pEnd,&pEnd,2);
-  li4 = strtol (pEnd,NULL,0);
-  
-	hour = strtol(c_time_string, &pEnd, 2);
-  
-  printf ("The decimal equivalents are: %ld, %ld, %ld and %ld.\n", li1, li2, li3, li4);
-  return 0;*/
+	hour = tm_struct->tm_hour;
+	minutes = tm_struct->tm_min;
+	seconds = tm_struct->tm_sec;
 
 	glutPostRedisplay();
 }//end timeUpdate
