@@ -21,6 +21,8 @@ int lineWidth = 2;
 int radius = 220;
 int L = 250;
 
+float hour, minutes, seconds;
+
 GLuint clockFaceIndex,clockHandIndex;
 
 void drawCirclePoint(int x, int y)
@@ -189,7 +191,7 @@ void display()
 	//minute
 	glColor3f(0,0,1);
 	glPushMatrix();	
-		glRotatef(-120, 0.0, 0.0, 1.0);
+		glRotatef(360 - (6*minutes), 0.0, 0.0, 1.0);
 		glScalef(.8,2,1);
 		glCallList(clockHandIndex);	
 	glPopMatrix();
@@ -197,7 +199,7 @@ void display()
 	//second
 	glColor3f(0,1,0);
 	glPushMatrix();	
-		glRotatef(180, 0.0, 0.0, 1.0);
+		glRotatef(360 - (6* seconds), 0.0, 0.0, 1.0);
 		glScalef(.3, 2, 1);
 		glCallList(clockHandIndex);	
 	glPopMatrix();
@@ -205,7 +207,7 @@ void display()
 	//hour
 	glColor3f(1,0,0);
 	glPushMatrix();
-		glRotatef(70, 0.0, 0.0, 1.0);
+		glRotatef(360 - .5*(60*hour+minutes), 0.0, 0.0, 1.0);
 		glCallList(clockHandIndex);	
 	glPopMatrix();
 
@@ -235,10 +237,39 @@ void initializeWindow()
 	
 }//end initialize
 
+void timeUpdate()
+{
+
+	seconds += .5;
+
+	if(seconds > 60)
+	{
+		minutes ++;
+		seconds =0;
+
+		if(minutes > 60)
+		{
+			minutes =0;
+			hour++;
+
+			if(hour > 12)
+			{
+				hour = 0;
+			}
+		}
+	}
+
+	glutPostRedisplay();
+}//end timeUpdate
+
 void main(int argc, char **argv)
 {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+
+	hour = 11;
+	minutes = 50;
+	seconds = 0;
 
 	initializeWindow();//Initial setup of clipping & screen windows
 
@@ -246,6 +277,7 @@ void main(int argc, char **argv)
 
 	glutDisplayFunc(display);
 	glutReshapeFunc(reshape);
+	glutIdleFunc(timeUpdate);//Check for a new time and redraw
 
 	glutMainLoop();
 
